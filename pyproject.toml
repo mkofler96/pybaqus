@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "numpy>=2.1.2",
+    "numpy>=1.26.4",
     "pyvista>=0.44.1",
     "scipy>=1.14.1",
     "tqdm>=4.66.5",
