@@ -884,7 +884,18 @@ class Model:
             An array with the displacements of the node
 
         """
-        nodal_output = self.nodal_output[step][inc]
+        if step not in self.nodal_output.keys():
+            raise RuntimeError(
+                f"No step data found for step {step}"
+                f"Available steps are {list(self.nodal_output.keys())}"
+            )
+        step_output = self.nodal_output[step]
+        if inc not in step_output.keys():
+            raise RuntimeError(
+                f"No inc data found for inc {inc} in step {step}"
+                f"Available steps are {list(step_output.keys())}"
+            )
+        nodal_output = step_output[inc]
 
         if self._dimension == 3:
             u = np.asarray(
@@ -971,11 +982,21 @@ class Model:
 
         """
         if isinstance(node_set, str):
+            if node_set not in self.node_sets.keys():
+                raise RuntimeError(
+                    f"Nodeset {node_set} not found. "
+                    f"Available sets are {list(self.node_sets.keys())}"
+                )
             node_ids = self.node_sets[node_set]
         # Is list
         else:
             node_ids = []
             for set_i in node_set:
+                if node_set not in self.node_sets.keys():
+                    raise RuntimeError(
+                        f"Nodeset {node_set} not found. "
+                        f"Available sets are {list(self.node_sets.keys())}"
+                    )
                 node_ids += self.node_sets[set_i]
 
         return node_ids
