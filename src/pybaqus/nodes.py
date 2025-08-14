@@ -78,6 +78,7 @@ class Node2D(Node):
         The values for all degrees of freedom.
 
     """
+
     _x: float
     _y: float
     _rz: float
@@ -87,7 +88,10 @@ class Node2D(Node):
 
         self._x = dof[dof_map[0] - 1]
         self._y = dof[dof_map[1] - 1]
-        self._rz = dof[dof_map[5] - 1] if dof_map[5] > 0 else np.nan
+        if (len(dof) >= 3) and (dof_map[5] > 0):
+            self._rz = dof[dof_map[5] - 1]
+        else:
+            self._rz = np.nan
         self._num = num
 
     def _get_coords(self):
@@ -109,6 +113,7 @@ class Node3D(Node):
         The values for all degree of freedom.
 
     """
+
     _x: float
     _y: float
     _z: float
